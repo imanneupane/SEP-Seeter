@@ -68,6 +68,7 @@ public class Client {
   private String user;
   private String host;
   private int port;
+  State state = State.Main;
 
   boolean printSplash = true;
 
@@ -87,6 +88,7 @@ public class Client {
     
     Client client = new Client(user, host, port);
     client.run();
+    
   }
   
   // Run the client
@@ -94,15 +96,17 @@ public class Client {
       value = "DM_DEFAULT_ENCODING",
       justification = "When reading console, ignore default encoding warning")
           
-  void run() throws IOException 
+  private void run() throws IOException 
   {
 
     BufferedReader reader = null;
     CLFormatter helper = null;
-    try {
+    try 
+    {
       reader = new BufferedReader(new InputStreamReader(System.in));
 
-      if (this.user.isEmpty() || this.host.isEmpty()) {
+      if (this.user.isEmpty() || this.host.isEmpty()) 
+      {
         System.err.println("User/host has not been set.");
         System.exit(1);
       }
@@ -113,18 +117,103 @@ public class Client {
         System.out.print(helper.formatSplash(this.user));
       }
       loop(helper, reader);
-    } catch (Exception ex) {
+    } 
+    catch (Exception ex) 
+    {
       throw new RuntimeException(ex);
-    } finally {
+    } 
+    
+    finally 
+    {
       reader.close();
-      if (helper.chan.isOpen()) {
+      if (helper.chan.isOpen()) 
+      {
         // If the channel is open, send Bye and close
         helper.chan.send(new Bye());
         helper.chan.close();
       }
     }
   }
-
+  
+  // Read a line of user input
+  private String readUI() throws IOException
+  {
+     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+     String raw = reader.readLine();
+      if (raw == null) 
+      {
+        throw new IOException("Input stream closed while reading.");
+      } 
+      return raw;
+  }
+  
+  private void processUI() throws IOException, ClassNotFoundException
+  {
+      String raw = readUI();
+      String draftTopic = null;
+      List<String> draftLines = new LinkedList<>();
+      boolean done = false;
+      CLFormatter helper = null;
+      List<String> split = Arrays.stream(raw.trim().split("\\ "))
+          .map(x -> x.trim()).collect(Collectors.toList());
+      String cmd = split.remove(0);  // First word is the command keyword
+      String[] rawArgs = split.toArray(new String[split.size()]);
+      
+      while (done != true)
+      {
+        if (state == State.Main)
+        {
+           System.out.print(helper.formatMainMenuPrompt());
+           switch(cmd)
+           {
+               case "exit":
+                   done = true;
+                   break;
+               case "compose":
+                   state = State.Draft;
+                   draftTopic = rawArgs[0];
+                   break;
+               case "fetch":
+                   // Fetch seets from server
+                   helper.chan.send(new SeetsReq(rawArgs[0]));
+                   SeetsReply rep = (SeetsReply) helper.chan.receive();
+                   System.out.print(
+                   helper.formatFetched(rawArgs[0], rep.users, rep.lines));
+                   break; 
+            }
+        }
+        
+        else if (state == State.Draft)
+        {
+           System.out.print(helper.
+            formatDraftingMenuPrompt(draftTopic, draftLines));
+           switch(cmd)
+           {
+               case "exit":
+                   done = true;
+                   break;
+               case "body":
+                   // Add a seet body line
+                   String line = Arrays.stream(rawArgs).
+                   collect(Collectors.joining());
+                   draftLines.add(line);
+                   break;
+               case "send":
+                   // Send drafted seets to the server, and go back to "Main" state
+                   helper.chan.send(new Publish(user, draftTopic, draftLines));
+                   state = State.Main;
+                   draftTopic = null;
+                   break; 
+            }
+        }
+        else 
+        {
+            System.out.println("Could not parse command/args.");
+        } 
+       
+      }
+  }
+  
 // Main loop: print user options, read user input and process
   void loop(CLFormatter helper, BufferedReader reader) throws IOException,
       ClassNotFoundException {
