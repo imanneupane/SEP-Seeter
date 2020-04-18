@@ -69,8 +69,6 @@ public class Client {
   private String host;
   private int port;
 
-  boolean printSplash = true;
-
   public Client(String user, String host, int port) 
   {
       this.user = user;
@@ -80,14 +78,8 @@ public class Client {
 
   public static void main(String[] args) throws IOException 
   {
-    
-    String user = args[0];
-    String host = args[1];
-    int port = Integer.parseInt(args[2]);
-    
-    Client client = new Client(user, host, port);
+    Client client = new Client(args[0], args[1], Integer.parseInt(args[2]));
     client.run();
-    
   }
   
   // Run the client
@@ -107,16 +99,12 @@ public class Client {
       if (this.user.isEmpty() || this.host.isEmpty()) 
       {
         System.err.println("User/host has not been set.");
-        System.exit(1);
       }
       helper = new CLFormatter(this.host, this.port);
-
-      if (this.printSplash = true);
-      {
-        System.out.print(helper.formatSplash(this.user));
-      }
-      processUI(helper);
+      System.out.print(helper.formatSplash(this.user));
+      processUI(helper, reader);
     } 
+        
     catch (Exception ex) 
     {
       throw new RuntimeException(ex);
@@ -124,7 +112,6 @@ public class Client {
     
     finally 
     {
-      reader.close();
       if (helper.chan.isOpen()) 
       {
         // If the channel is open, send Bye and close
@@ -135,9 +122,8 @@ public class Client {
   }
   
   // Read a line of user input
-  private String readUI() throws IOException
+  private String readUI(BufferedReader reader) throws IOException
   {
-     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
      String raw = reader.readLine();
       if (raw == null) 
       {
@@ -146,7 +132,7 @@ public class Client {
       return raw;
   }
   
-  private void processUI(CLFormatter helper) throws IOException, ClassNotFoundException
+  private void processUI(CLFormatter helper, BufferedReader reader) throws IOException, ClassNotFoundException
   {
       
       String draftTopic = null;
@@ -166,7 +152,7 @@ public class Client {
             formatDraftingMenuPrompt(draftTopic, draftLines));
         }
         
-        String raw = readUI();
+        String raw = readUI(reader);
               //CLFormatter helper = null;
         List<String> split = Arrays.stream(raw.trim().split("\\ "))
           .map(x -> x.trim()).collect(Collectors.toList());
@@ -200,7 +186,10 @@ public class Client {
                 helper.chan.send(new Publish(user, draftTopic, draftLines));
                 state = State.Main;
                 draftTopic = null;
-                break;    
+                break;
+            default:
+                System.out.print(helper.formatSplash(this.user));
+                
         }
       }
   }  
