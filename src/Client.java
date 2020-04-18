@@ -105,10 +105,14 @@ public class Client {
       processUI(helper, reader);
     } 
         
-    catch (Exception ex) 
+    catch (RuntimeException ex) 
     {
-      throw new RuntimeException(ex);
+      throw ex;
     } 
+    catch (Exception e)
+    {
+      System.out.print("Error found" + e); 
+    }
     
     finally 
     {
