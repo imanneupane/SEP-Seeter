@@ -68,7 +68,6 @@ public class Client {
   private String user;
   private String host;
   private int port;
-  State state = State.Main;
 
   boolean printSplash = true;
 
@@ -116,7 +115,7 @@ public class Client {
       {
         System.out.print(helper.formatSplash(this.user));
       }
-      loop(helper, reader);
+      processUI(helper);
     } 
     catch (Exception ex) 
     {
@@ -147,145 +146,62 @@ public class Client {
       return raw;
   }
   
-  private void processUI() throws IOException, ClassNotFoundException
+  private void processUI(CLFormatter helper) throws IOException, ClassNotFoundException
   {
-      String raw = readUI();
+      
       String draftTopic = null;
       List<String> draftLines = new LinkedList<>();
       boolean done = false;
-      CLFormatter helper = null;
-      List<String> split = Arrays.stream(raw.trim().split("\\ "))
-          .map(x -> x.trim()).collect(Collectors.toList());
-      String cmd = split.remove(0);  // First word is the command keyword
-      String[] rawArgs = split.toArray(new String[split.size()]);
+      State state = State.Main;
       
       while (done != true)
       {
         if (state == State.Main)
         {
-           System.out.print(helper.formatMainMenuPrompt());
-           switch(cmd)
-           {
-               case "exit":
-                   done = true;
-                   break;
-               case "compose":
-                   state = State.Draft;
-                   draftTopic = rawArgs[0];
-                   break;
-               case "fetch":
-                   // Fetch seets from server
-                   helper.chan.send(new SeetsReq(rawArgs[0]));
-                   SeetsReply rep = (SeetsReply) helper.chan.receive();
-                   System.out.print(
-                   helper.formatFetched(rawArgs[0], rep.users, rep.lines));
-                   break; 
-            }
+           System.out.print(CLFormatter.formatMainMenuPrompt());
+        }
+        else
+        {
+           System.out.print(CLFormatter.
+            formatDraftingMenuPrompt(draftTopic, draftLines));
         }
         
-        else if (state == State.Draft)
-        {
-           System.out.print(helper.
-            formatDraftingMenuPrompt(draftTopic, draftLines));
-           switch(cmd)
-           {
-               case "exit":
-                   done = true;
-                   break;
-               case "body":
-                   // Add a seet body line
-                   String line = Arrays.stream(rawArgs).
-                   collect(Collectors.joining());
-                   draftLines.add(line);
-                   break;
-               case "send":
-                   // Send drafted seets to the server, and go back to "Main" state
-                   helper.chan.send(new Publish(user, draftTopic, draftLines));
-                   state = State.Main;
-                   draftTopic = null;
-                   break; 
-            }
-        }
-        else 
-        {
-            System.out.println("Could not parse command/args.");
-        } 
-       
-      }
-  }
-  
-// Main loop: print user options, read user input and process
-  void loop(CLFormatter helper, BufferedReader reader) throws IOException,
-      ClassNotFoundException {
-
-    // The app is in one of two states: "Main" or "Drafting"
-    String state = "Main";  // Initial state
-
-    // Holds the current draft data when in the "Drafting" state
-    String draftTopic = null;
-    List<String> draftLines = new LinkedList<>();
-
-    // The loop
-    for (boolean done = false; !done;) {
-
-      // Print user options
-      if (state.equals("Main")) {
-        System.out.print(helper.formatMainMenuPrompt());
-      } else {  // state = "Drafting"
-        System.out.print(helper.
-            formatDraftingMenuPrompt(draftTopic, draftLines));
-      }
-
-      // Read a line of user input
-      String raw = reader.readLine();
-      if (raw == null) {
-        throw new IOException("Input stream closed while reading.");
-      }
-      // Trim leading/trailing white space, and split words according to spaces
-      List<String> split = Arrays.stream(raw.trim().split("\\ "))
+        String raw = readUI();
+              //CLFormatter helper = null;
+        List<String> split = Arrays.stream(raw.trim().split("\\ "))
           .map(x -> x.trim()).collect(Collectors.toList());
-      String cmd = split.remove(0);  // First word is the command keyword
-      String[] rawArgs = split.toArray(new String[split.size()]);
-      // Remainder, if any, are arguments
-
-      // Process user input
-      if ("exit".startsWith(cmd)) {
-        // exit command applies in either state
-        done = true;
-      } // "Main" state commands
-      else if (state.equals("Main")) {
-        if ("compose".startsWith(cmd)) {
-          // Switch to "Drafting" state and start a new "draft"
-          state = "Drafting";
-          draftTopic = rawArgs[0];
-        } else if ("fetch".startsWith(cmd)) {
-          // Fetch seets from server
-          helper.chan.send(new SeetsReq(rawArgs[0]));
-          SeetsReply rep = (SeetsReply) helper.chan.receive();
-          System.out.print(
-              helper.formatFetched(rawArgs[0], rep.users, rep.lines));
-        } else {
-          System.out.println("Could not parse command/args.");
+        String cmd = split.remove(0);  // First word is the command keyword
+        String[] rawArgs = split.toArray(new String[split.size()]);
+      
+        switch(cmd)
+        {
+            case "exit":
+                done = true;
+                break;
+            case "compose":
+                state = State.Draft;
+                draftTopic = rawArgs[0];
+                break;
+            case "fetch":
+                // Fetch seets from server
+                helper.chan.send(new SeetsReq(rawArgs[0]));
+                SeetsReply rep = (SeetsReply) helper.chan.receive();
+                System.out.print(
+                helper.formatFetched(rawArgs[0], rep.users, rep.lines));
+                break; 
+            case "body":
+                // Add a seet body line
+                String line = Arrays.stream(rawArgs).
+                collect(Collectors.joining());
+                draftLines.add(line);
+                break;
+            case "send":
+                // Send drafted seets to the server, and go back to "Main" state
+                helper.chan.send(new Publish(user, draftTopic, draftLines));
+                state = State.Main;
+                draftTopic = null;
+                break;    
         }
-      } // "Drafting" state commands
-      else if (state.equals("Drafting")) {
-        if ("body".startsWith(cmd)) {
-          // Add a seet body line
-          String line = Arrays.stream(rawArgs).
-              collect(Collectors.joining());
-          draftLines.add(line);
-        } else if ("send".startsWith(cmd)) {
-          // Send drafted seets to the server, and go back to "Main" state
-          helper.chan.send(new Publish(user, draftTopic, draftLines));
-          state = "Main";
-          draftTopic = null;
-        } else {
-          System.out.println("Could not parse command/args.");
-        }
-      } else {
-        System.out.println("Could not parse command/args.");
       }
-    }
-    return;
-  }
+  }  
 }
