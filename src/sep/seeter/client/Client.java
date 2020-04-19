@@ -1,3 +1,5 @@
+package sep.seeter.client;
+
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
