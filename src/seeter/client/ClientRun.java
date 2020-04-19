@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sep.seeter.client;
+package seeter.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +14,7 @@ import java.io.InputStreamReader;
  * @author owner
  */
 public class ClientRun 
-{
-    public void runClient()
-    {
-        
-    }
-    
+{    
     private String getInput(BufferedReader reader) throws IOException
     {
         String input = reader.readLine();
@@ -38,6 +33,17 @@ public class ClientRun
         Clientin client = new Clientin(args[0], args[1], Integer.parseInt(args[2]));
         UserInput inHandler = new UserInput(client);
         
-
+        while(true)
+        {
+            String command = getInput(reader);
+            if(command.contentEquals("quit"))break;
+            inHandler.enterInput(command);
+        }
     }
+    
+    public static void main(String[] args) throws IOException
+    {
+        ClientRun clientRun = new ClientRun();
+        clientRun.userOptions(args);
+    }  
 }

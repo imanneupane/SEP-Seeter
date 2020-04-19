@@ -3,7 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sep.seeter.client;
+package seeter.client;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import sep.seeter.client.State;
 
 /**
  *
@@ -14,6 +20,9 @@ public class Clientin
     private String user;
     private String host;
     private int port;
+    String draftTopic = null;
+    List<String> draftLines = new LinkedList<>();
+    State state = State.Main;
     
     
     public Clientin(String user, String host, int port)
@@ -23,8 +32,13 @@ public class Clientin
         this.port = port;
     }
     
-    public void composeTopic()
+    public void composeTopic(String userI)
     {
+        List<String> split = Arrays.stream(userI.trim().split("\\ "))
+                .map(x -> x.trim()).collect(Collectors.toList());
+        String[] rawArgs = split.toArray(new String[split.size()]);
+        state = State.Draft;
+        draftTopic = rawArgs[0];
         System.out.println(user + " has composed a topic.");
     }
     

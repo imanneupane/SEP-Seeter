@@ -3,7 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sep.seeter.client;
+package seeter.client;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -12,7 +18,7 @@ package sep.seeter.client;
 public class Compose implements RunUI
 {
     private Clientin client;
-    
+    private String userI;
     /**
      * Constructor
      * @param client which is set to this client
@@ -29,7 +35,17 @@ public class Compose implements RunUI
     @Override
     public void run()
     {
-        client.composeTopic();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try 
+        {
+            userI = reader.readLine();
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Compose.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        client.composeTopic(userI);       
     }
     
 }

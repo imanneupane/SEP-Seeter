@@ -3,29 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sep.seeter.client;
+package seeter.client;
 
 /**
  *
  * @author owner
  */
-public class AddSeets implements RunUI
+public class SendSeet implements RunUI
 {
     private Clientin client;
     
-    public AddSeets(Clientin client)
+    public SendSeet(Clientin client)
     {
         this.client = client;
     }
     
     /**
      * Runs the command that overrides the parent run method
-     * Executes addBody
+     * Executes sendDraft
      */
     @Override
     public void run()
     {
-        client.addBody();
+        client.sendDraft();
     }
     
 }

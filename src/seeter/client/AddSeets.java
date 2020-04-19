@@ -3,28 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sep.seeter.client;
+package seeter.client;
 
 /**
  *
  * @author owner
  */
-public class FetchTopic implements RunUI
+public class AddSeets implements RunUI
 {
     private Clientin client;
     
-    public FetchTopic(Clientin client)
+    public AddSeets(Clientin client)
     {
         this.client = client;
     }
     
     /**
      * Runs the command that overrides the parent run method
-     * Executes fetchTopic
+     * Executes addBody
      */
     @Override
     public void run()
     {
-        client.fetchTopic();
+        client.addBody();
     }
+    
 }
