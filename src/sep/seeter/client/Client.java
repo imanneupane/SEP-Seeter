@@ -164,7 +164,7 @@ public class Client {
           .map(x -> x.trim()).collect(Collectors.toList());
         String cmd = split.remove(0);  // First word is the command keyword
         String[] rawArgs = split.toArray(new String[split.size()]);
-      
+
         switch(cmd)
         {
             case "exit":

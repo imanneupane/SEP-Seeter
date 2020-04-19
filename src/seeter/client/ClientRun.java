@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
  */
 public class ClientRun 
 {    
+    private State state = State.Main;
     private String getInput(BufferedReader reader) throws IOException
     {
         String input = reader.readLine();
@@ -29,14 +30,29 @@ public class ClientRun
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         
-        String input = getInput(reader);
         Clientin client = new Clientin(args[0], args[1], Integer.parseInt(args[2]));
         UserInput inHandler = new UserInput(client);
         
         while(true)
         {
+            if (state == State.Main)
+            {
+                System.out.print(CLFormatter.formatMainMenuPrompt());
+            }
+            else
+            {
+                System.out.print(CLFormatter.formatDraftingMenuPrompt(client.getDraftTopic(), client.getList()));
+            }
             String command = getInput(reader);
-            if(command.contentEquals("quit"))break;
+            if(command.contentEquals("exit"))break;
+            if(command.contentEquals("compose"))
+            {
+                state = State.Draft;
+            }
+            else if(command.contentEquals("send"))
+            {
+                state = State.Main;
+            }
             inHandler.enterInput(command);
         }
     }

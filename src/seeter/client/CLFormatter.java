@@ -40,8 +40,8 @@ public class CLFormatter {
 
   static String formatMainMenuPrompt() {
     return "\n[Main] Enter command: "
-        + "fetch [mytopic], "
-        + "compose [mytopic], "
+        + "fetch , "
+        + "compose , "
         + "exit"
         + "\n> ";
   }
@@ -50,7 +50,7 @@ public class CLFormatter {
       List<String> lines) {
     return "\nDrafting: " + formatDrafting(topic, lines)
         + "\n[Drafting] Enter command: "
-        + "body [mytext], "
+        + "body, "
         + "send, "
         + "exit"
         + "\n> ";

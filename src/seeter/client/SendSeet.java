@@ -5,6 +5,10 @@
  */
 package seeter.client;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author owner
@@ -25,7 +29,11 @@ public class SendSeet implements RunUI
     @Override
     public void run()
     {
-        client.sendDraft();
+        try {
+            client.sendDraft();
+        } catch (IOException ex) {
+            Logger.getLogger(SendSeet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

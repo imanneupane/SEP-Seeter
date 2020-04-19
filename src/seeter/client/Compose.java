@@ -38,6 +38,7 @@ public class Compose implements RunUI
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try 
         {
+            System.out.println("Enter the topic to compose: ");
             userI = reader.readLine();
         } 
         catch (IOException ex) 
