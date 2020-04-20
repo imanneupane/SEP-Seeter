@@ -5,7 +5,10 @@
  */
 package seeter.client;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -50,4 +53,5 @@ public class UserInput
             System.out.println("Sorry, Wrong Input command");
         }
     }
+
 }

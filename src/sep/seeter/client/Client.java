@@ -65,7 +65,8 @@ import sep.seeter.net.message.SeetsReq;
  *
  * @see CLFormatter
  */
-public class Client {
+public class Client 
+{
 
   private String user;
   private String host;
@@ -198,5 +199,6 @@ public class Client {
                 
         }
       }
-  }  
+  } 
+    
 }

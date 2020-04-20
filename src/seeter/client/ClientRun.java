@@ -8,6 +8,10 @@ package seeter.client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -16,6 +20,7 @@ import java.io.InputStreamReader;
 public class ClientRun 
 {    
     private State state = State.Main;
+    
     private String getInput(BufferedReader reader) throws IOException
     {
         String input = reader.readLine();
@@ -43,7 +48,10 @@ public class ClientRun
             {
                 System.out.print(CLFormatter.formatDraftingMenuPrompt(client.getDraftTopic(), client.getList()));
             }
-            String command = getInput(reader);
+            String cmdIn = getInput(reader);
+            client.setCommand(cmdIn);
+            String command = client.passCmd();
+            System.out.println(command);
             if(command.contentEquals("exit"))break;
             if(command.contentEquals("compose"))
             {

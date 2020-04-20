@@ -5,20 +5,13 @@
  */
 package seeter.client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author owner
  */
 public class Compose implements RunUI
 {
-    private Clientin client;
-    private String userI;
+    private final Clientin client;
     /**
      * Constructor
      * @param client which is set to this client
@@ -35,6 +28,8 @@ public class Compose implements RunUI
     @Override
     public void run()
     {
+        
+        /*
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try 
         {
@@ -45,8 +40,8 @@ public class Compose implements RunUI
         {
             Logger.getLogger(Compose.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        client.composeTopic(userI);       
+        */
+        client.composeTopic();       
     }
     
 }
