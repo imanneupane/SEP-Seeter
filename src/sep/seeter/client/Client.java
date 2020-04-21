@@ -4,6 +4,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import sep.seeter.net.message.Bye;
 
 /**
@@ -60,13 +64,25 @@ import sep.seeter.net.message.Bye;
 public class Client 
 {
     private State state = State.Main;
+    private static final String RESOURCE_PATH = "resources/MessageBundle";
+    private final ResourceBundle strings;
+
+    
+    public Client()
+    {
+        this(new Locale("en", "GB"));
+    }
+    public Client(Locale locale)
+    {
+        strings = ResourceBundle.getBundle(RESOURCE_PATH, locale);
+    }
     
     private String getInput(BufferedReader reader) throws IOException
     {
         String input = reader.readLine();
         if (input == null)
         {
-            throw new IOException("Input Stream closed while reading");
+            throw new IOException(strings.getString("msg_error1"));
         }
         return input.toLowerCase();
     }
@@ -77,17 +93,17 @@ public class Client
         ClientControl client = new ClientControl(user, host, port);
         CLFormatter helper = new CLFormatter(host, port);
         UserInput inHandler = new UserInput(client);
-        System.out.print(CLFormatter.formatSplash(user));
+        System.out.print(formatSplash(user));
         try{
         while(true)
         {
             if (state == State.Main)
             {
-                System.out.print(CLFormatter.formatMainMenuPrompt());
+                System.out.print(formatMainMenuPrompt());
             }
             else
             {
-                System.out.print(CLFormatter.formatDraftingMenuPrompt(client.getDraftTopic(), client.getList()));
+                System.out.print(formatDraftingMenuPrompt(client.getDraftTopic(), client.getList()));
             }
             String cmdIn = getInput(reader);
             client.setCommand(cmdIn);
@@ -96,6 +112,7 @@ public class Client
             if(command.contentEquals("compose"))
             {
                 state = State.Draft;
+                System.out.println(user + strings.getString("msg_message"));
             }
             else if(command.contentEquals("send"))
             {
@@ -110,7 +127,7 @@ public class Client
         }
         catch (Exception e)
         {
-            System.out.print("Error found" + e); 
+            System.out.print(strings.getString("msg_error") + e); 
         }
     
         finally 
@@ -131,138 +148,56 @@ public class Client
         clientRun.userOptions(args[0], args[1], Integer.parseInt(args[2]));
     }
     
-/*
-  private String user;
-  private String host;
-  private int port;
-
-  public Client(String user, String host, int port) 
-  {
-      this.user = user;
-      this.host = host;
-      this.port = port;
-  }
-
-  public static void main(String[] args) throws IOException 
-  {
-    Client client = new Client(args[0], args[1], Integer.parseInt(args[2]));
-    client.run();
-  }
-  
-  // Run the client
-  @SuppressFBWarnings(
-      value = "DM_DEFAULT_ENCODING",
-      justification = "When reading console, ignore default encoding warning")
-          
-  private void run() throws IOException 
-  {
-
-    BufferedReader reader = null;
-    CLFormatter helper = null;
-    try 
+    private String formatSplash(String user) 
     {
-      reader = new BufferedReader(new InputStreamReader(System.in));
+        return "\n "+ strings.getString("greeting") + user + "!\n"
+            + strings.getString("msg_note")
+            + strings.getString("msg_note1");
+    }
 
-      if (this.user.isEmpty() || this.host.isEmpty()) 
-      {
-        System.err.println("User/host has not been set.");
-      }
-      helper = new CLFormatter(this.host, this.port);
-      System.out.print(helper.formatSplash(this.user));
-      processUI(helper, reader);
-    } 
-        
-    catch (RuntimeException ex) 
+    private String formatMainMenuPrompt() 
     {
-      throw ex;
-    } 
-    catch (Exception e)
+        return "\n"+ strings.getString("msg_note2")
+            + "\n> ";
+    }
+
+    private String formatDraftingMenuPrompt(String topic,
+      List<String> lines) 
     {
-      System.out.print("Error found" + e); 
+        return "\n " + strings.getString("msg_draft") + formatDrafting(topic, lines)
+            + "\n" + strings.getString("msg_note3")
+            + "\n> ";
     }
     
-    finally 
+    static String formatDrafting(String topic, List<String> lines) 
     {
-      if (helper.chan.isOpen()) 
-      {
-        // If the channel is open, send Bye and close
-        helper.chan.send(new Bye());
-        helper.chan.close();
-      }
+        StringBuilder b = new StringBuilder("#");
+        b.append(topic);
+        int i = 1;
+        for (String x : lines) 
+        {
+            b.append("\n");
+            b.append(String.format("%12d", i++));
+            b.append("  ");
+            b.append(x);
+        };
+        return b.toString();
     }
-  }
-  
-  // Read a line of user input
-  private String readUI(BufferedReader reader) throws IOException
-  {
-     String raw = reader.readLine();
-      if (raw == null) 
-      {
-        throw new IOException("Input stream closed while reading.");
-      } 
-      return raw;
-  }
-  
-  private void processUI(CLFormatter helper, BufferedReader reader) throws IOException, ClassNotFoundException
-  {
-      
-      String draftTopic = null;
-      List<String> draftLines = new LinkedList<>();
-      boolean done = false;
-      State state = State.Main;
-      
-      while (done != true)
-      {
-        if (state == State.Main)
-        {
-           System.out.print(CLFormatter.formatMainMenuPrompt());
-        }
-        else
-        {
-           System.out.print(CLFormatter.
-            formatDraftingMenuPrompt(draftTopic, draftLines));
-        }
-        
-        String raw = readUI(reader);
-              //CLFormatter helper = null;
-        List<String> split = Arrays.stream(raw.trim().split("\\ "))
-          .map(x -> x.trim()).collect(Collectors.toList());
-        String cmd = split.remove(0);  // First word is the command keyword
-        String[] rawArgs = split.toArray(new String[split.size()]);
 
-        switch(cmd)
+    static String formatFetched(String topic, List<String> users,
+      List<String> fetched) 
+    {
+        StringBuilder b = new StringBuilder("Fetched: #");
+        b.append(topic);
+        Iterator<String> it = fetched.iterator();
+        for (String user : users) 
         {
-            case "exit":
-                done = true;
-                break;
-            case "compose":
-                state = State.Draft;
-                draftTopic = rawArgs[0];
-                break;
-            case "fetch":
-                // Fetch seets from server
-                helper.chan.send(new SeetsReq(rawArgs[0]));
-                SeetsReply rep = (SeetsReply) helper.chan.receive();
-                System.out.print(
-                helper.formatFetched(rawArgs[0], rep.users, rep.lines));
-                break; 
-            case "body":
-                // Add a seet body line
-                String line = Arrays.stream(rawArgs).
-                collect(Collectors.joining());
-                draftLines.add(line);
-                break;
-            case "send":
-                // Send drafted seets to the server, and go back to "Main" state
-                helper.chan.send(new Publish(user, draftTopic, draftLines));
-                state = State.Main;
-                draftTopic = null;
-                break;
-            default:
-                System.out.print(helper.formatSplash(this.user));
-                
-        }
-      }
-  } 
- */   
+            b.append("\n");
+            b.append(String.format("%12s", user));
+            b.append("  ");
+            b.append(it.next());
+        };
+        b.append("\n");
+        return b.toString();
+    }
 }

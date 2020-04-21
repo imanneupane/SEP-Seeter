@@ -11,8 +11,8 @@ import sep.seeter.net.message.Message;
  * A helper class for the current prototype {@link Client client}.  <i>E.g.</i>,
  * for formatting Command Line messages.
  */
-public class CLFormatter {
-
+public class CLFormatter 
+{
   static ClientChannel chan;  // Client-side channel for talking to a Seeter server
 
   public CLFormatter(String host, int port) {
@@ -38,20 +38,14 @@ public class CLFormatter {
   }
 
   static String formatMainMenuPrompt() {
-    return "\n[Main] Enter command: "
-        + "fetch [mytopic], "
-        + "compose [mytopic], "
-        + "exit"
+    return "\n[Main] Enter command: fetch [mytopic], compose [mytopic], exit"
         + "\n> ";
   }
 
   static String formatDraftingMenuPrompt(String topic,
       List<String> lines) {
     return "\nDrafting: " + formatDrafting(topic, lines)
-        + "\n[Drafting] Enter command: "
-        + "body [mytext], "
-        + "send, "
-        + "exit"
+        + "\n[Drafting] Enter command: body [mytext], send, exit"
         + "\n> ";
   }
 

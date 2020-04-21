@@ -43,7 +43,6 @@ public class ClientControl
             System.out.println("Should not be empty");
         }
         draftTopic = rawArgs[0];
-        System.out.println(user + " has composed a topic.");
     }
     
     public void fetchTopic() throws IOException, ClassNotFoundException
