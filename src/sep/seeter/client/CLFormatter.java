@@ -13,24 +13,12 @@ import sep.seeter.net.message.Message;
  */
 public class CLFormatter 
 {
-  static ClientChannel chan;  // Client-side channel for talking to a Seeter server
-  //private static final String RESOURCE_PATH = "resources/MessageBundle";
-  //private ResourceBundle strings;
+  public static ClientChannel chan;  // Client-side channel for talking to a Seeter server
   
   public CLFormatter(String host, int port) 
   {
     this.chan = new ClientChannel(host, port);
   }
-  /*
-  public CLFormatter()
-  {
-    this(new Locale("en", "GB"));
-  }
-  public CLFormatter(Locale locale)
-  {
-    strings = ResourceBundle.getBundle(RESOURCE_PATH, locale);
-  }
-  */
   /* Interact with Seeter server */
 
   private void send(Message msg) throws IOException {
@@ -42,29 +30,8 @@ public class CLFormatter
   }
 
   /* Following are the auxiliary methods for formatting the UI text */
-/*
-    public String formatSplash(String user) 
-    {
-        return "\n "+ strings.getString("greeting") + " " + user + "!\n"
-            + strings.getString("msg_note")
-            + strings.getString("msg_note1");
-    }
 
-    public String formatMainMenuPrompt() 
-    {
-        return "\n"+ strings.getString("msg_note2")
-            + "\n> ";
-    }
-
-    public String formatDraftingMenuPrompt(String topic,
-      List<String> lines) 
-    {
-        return "\n " + strings.getString("msg_draft") + formatDrafting(topic, lines)
-            + "\n" + strings.getString("msg_note3")
-            + "\n> ";
-    }
-*/
-  static String formatDrafting(String topic, List<String> lines) {
+  public static String formatDrafting(String topic, List<String> lines) {
     StringBuilder b = new StringBuilder("#");
     b.append(topic);
     int i = 1;
@@ -77,7 +44,7 @@ public class CLFormatter
     return b.toString();
   }
 
-  static String formatFetched(String topic, List<String> users,
+  public static String formatFetched(String topic, List<String> users,
       List<String> fetched) {
     StringBuilder b = new StringBuilder("Fetched: #");
     b.append(topic);
