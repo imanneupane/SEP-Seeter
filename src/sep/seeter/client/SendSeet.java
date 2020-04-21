@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,11 +13,11 @@ import java.util.logging.Logger;
  *
  * @author owner
  */
-public class SendSeet implements RunUI
+public class SendSeet implements Command
 {
-    private Clientin client;
+    private final ClientControl client;
     
-    public SendSeet(Clientin client)
+    public SendSeet(ClientControl client)
     {
         this.client = client;
     }

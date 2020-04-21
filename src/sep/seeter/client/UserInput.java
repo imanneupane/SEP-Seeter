@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -24,11 +21,11 @@ public class UserInput
      * "body" -> addSeets
      * "send" -> sendTopic
      */
-    private HashMap<String, RunUI> commands;
+    private final HashMap<String, Command> commands;
     
-    public UserInput(Clientin client)
+    public UserInput(ClientControl client)
     {
-        commands = new HashMap<String, RunUI>();
+        commands = new HashMap<>();
         //setting key to each of the command
         commands.put("compose", new Compose(client));
         commands.put("fetch", new FetchTopic(client));
@@ -38,19 +35,21 @@ public class UserInput
     
     /**
      *Checks if the user input is a command so it runs the command. 
-     * @param input The command typed.
+     * @param cmd
      */
-    public void enterInput(String input)
+    public void enterInput(String cmd)
     {
-        input = input.toLowerCase();
-        
-        if(commands.containsKey(input))
+        cmd = cmd.toLowerCase();
+        if("compose".startsWith(cmd))
         {
-            commands.get(input).run();
-        }
-        else
-        {
-            System.out.println("Sorry, Wrong Input command");
+            if(commands.containsKey(cmd))
+            {
+                commands.get(cmd).run();
+            }
+            else
+            {
+                System.out.println("Sorry, Wrong Input command");
+            }
         }
     }
 

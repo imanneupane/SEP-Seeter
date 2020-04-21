@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,12 +13,12 @@ import java.util.logging.Logger;
  *
  * @author owner
  */
-public class FetchTopic implements RunUI
+public class FetchTopic implements Command
 {
-    private final Clientin client;
+    private final ClientControl client;
 
     
-    public FetchTopic(Clientin client)
+    public FetchTopic(ClientControl client)
     {
         this.client = client;
     }

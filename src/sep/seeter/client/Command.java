@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
 
 /**
  *
  * @author owner
  */
-public interface RunUI 
+public interface Command 
 {
     //runs the methods
     public void run();

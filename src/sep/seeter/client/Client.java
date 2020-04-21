@@ -1,18 +1,10 @@
 package sep.seeter.client;
 
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 import sep.seeter.net.message.Bye;
-import sep.seeter.net.message.Publish;
-import sep.seeter.net.message.SeetsReply;
-import sep.seeter.net.message.SeetsReq;
 
 /**
  * This class is an initial work-in-progress prototype for a command line
@@ -67,7 +59,79 @@ import sep.seeter.net.message.SeetsReq;
  */
 public class Client 
 {
-
+    private State state = State.Main;
+    
+    private String getInput(BufferedReader reader) throws IOException
+    {
+        String input = reader.readLine();
+        if (input == null)
+        {
+            throw new IOException("Input Stream closed while reading");
+        }
+        return input.toLowerCase();
+    }
+    
+    private void userOptions(String user, String host, int port)throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ClientControl client = new ClientControl(user, host, port);
+        CLFormatter helper = new CLFormatter(host, port);
+        UserInput inHandler = new UserInput(client);
+        System.out.print(CLFormatter.formatSplash(user));
+        try{
+        while(true)
+        {
+            if (state == State.Main)
+            {
+                System.out.print(CLFormatter.formatMainMenuPrompt());
+            }
+            else
+            {
+                System.out.print(CLFormatter.formatDraftingMenuPrompt(client.getDraftTopic(), client.getList()));
+            }
+            String cmdIn = getInput(reader);
+            client.setCommand(cmdIn);
+            String command = client.passCmd();
+            if(command.contentEquals("exit"))break;
+            if(command.contentEquals("compose"))
+            {
+                state = State.Draft;
+            }
+            else if(command.contentEquals("send"))
+            {
+                state = State.Main;
+            }
+            inHandler.enterInput(command);
+        }
+        }
+        catch (RuntimeException ex) 
+        {
+            throw ex;
+        }
+        catch (Exception e)
+        {
+            System.out.print("Error found" + e); 
+        }
+    
+        finally 
+        {
+            if (helper.chan.isOpen()) 
+            {
+                // If the channel is open, send Bye and close
+                helper.chan.send(new Bye());
+                helper.chan.close();
+            }       
+        }
+    
+    }
+    
+    public static void main(String[] args) throws IOException
+    {
+        Client clientRun = new Client();
+        clientRun.userOptions(args[0], args[1], Integer.parseInt(args[2]));
+    }
+    
+/*
   private String user;
   private String host;
   private int port;
@@ -200,5 +264,5 @@ public class Client
         }
       }
   } 
-    
+ */   
 }

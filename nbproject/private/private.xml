@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/SEP%20Coursework/src/Client.java</file>
-            <file>file:/E:/SEP%20Coursework/src/CLFormatter.java</file>
+            <file>file:/E:/SEP%20Coursework/src/sep/seeter/client/Compose.java</file>
+            <file>file:/E:/SEP%20Coursework/src/sep/seeter/client/ClientControl.java</file>
+            <file>file:/E:/SEP%20Coursework/src/sep/seeter/server/Server.java</file>
+            <file>file:/E:/SEP%20Coursework/src/sep/seeter/client/Client.java</file>
+            <file>file:/E:/SEP%20Coursework/src/sep/seeter/client/UserInput.java</file>
         </group>
     </open-files>
 </project-private>

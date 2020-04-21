@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
+
 /**
  *
  * @author owner
  */
-public class AddSeets implements RunUI
+public class AddSeets implements Command
 {
-    private final Clientin client;
+    private final ClientControl client;
     
-    public AddSeets(Clientin client)
+    public AddSeets(ClientControl client)
     {
         this.client = client;
     }

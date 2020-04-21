@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
 
 /**
  *
  * @author owner
  */
-public class Compose implements RunUI
+public class Compose implements Command
 {
-    private final Clientin client;
+    private final ClientControl client;
     /**
      * Constructor
      * @param client which is set to this client
      */
-    public Compose(Clientin client)
+    public Compose(ClientControl client)
     {
         this.client = client;
     }
@@ -28,19 +28,6 @@ public class Compose implements RunUI
     @Override
     public void run()
     {
-        
-        /*
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        try 
-        {
-            System.out.println("Enter the topic to compose: ");
-            userI = reader.readLine();
-        } 
-        catch (IOException ex) 
-        {
-            Logger.getLogger(Compose.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
         client.composeTopic();       
     }
     

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seeter.client;
+package sep.seeter.client;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import sep.seeter.net.message.SeetsReq;
  *
  * @author owner
  */
-public class Clientin 
+public class ClientControl 
 {
     private final String user;
     private String host;
@@ -29,46 +29,44 @@ public class Clientin
     private String command;
     private String[] rawArgs;
     
-    public Clientin(String user, String host, int port)
+    public ClientControl(String user, String host, int port)
     {
         this.user = user;
         this.host = host;
         this.port = port;
     }
     
-    public void composeTopic()
+    public void composeTopic()throws ArrayIndexOutOfBoundsException
     {
+        if (rawArgs.length == 0)
+        {
+            System.out.println("Should not be empty");
+        }
         draftTopic = rawArgs[0];
         System.out.println(user + " has composed a topic.");
     }
     
     public void fetchTopic() throws IOException, ClassNotFoundException
     {
-        CLFormatter.chan.send(new SeetsReq(rawArgs[0]));
-        SeetsReply rep = (SeetsReply) CLFormatter.chan.receive();
-        System.out.print(CLFormatter.formatFetched(rawArgs[0], rep.users, rep.lines));
+        helper.chan.send(new SeetsReq(rawArgs[0]));
+        SeetsReply rep = (SeetsReply) helper.chan.receive();
+        System.out.print(helper.formatFetched(rawArgs[0], rep.users, rep.lines));
     }
+    
     public void addBody()
-    {   
+    {
         String line = Arrays.stream(rawArgs).collect(Collectors.joining());
         draftLines.add(line);
-        System.out.println(user + " has added seet under the topic");
+        System.out.println(user + " has added seet under the topic"); 
     }
+    
     public void sendDraft() throws IOException
     {
-        CLFormatter.chan.send(new Publish(user, draftTopic, draftLines));
+        helper.chan.send(new Publish(user, draftTopic, draftLines));
         draftTopic = null;
         System.out.println(user + " has send the seets.");
     }
-    /*
-    private String[] splitTrim(String inputC) 
-    {
-        List<String> split = Arrays.stream(inputC.trim().split("\\ "))
-                .map(x -> x.trim()).collect(Collectors.toList());
-        String[] rawArgs = split.toArray(new String[split.size()]);
-        return rawArgs;
-    }
-    */
+    
     public void setCommand(String inputC)
     {
         List<String> split = Arrays.stream(inputC.trim().split("\\ "))
