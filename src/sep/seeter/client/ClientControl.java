@@ -38,10 +38,6 @@ public class ClientControl
     
     public void composeTopic()throws ArrayIndexOutOfBoundsException
     {
-        if (rawArgs.length == 0)
-        {
-            System.out.println("Should not be empty");
-        }
         draftTopic = rawArgs[0];
     }
     

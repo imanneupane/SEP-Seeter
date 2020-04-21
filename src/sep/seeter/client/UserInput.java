@@ -40,8 +40,6 @@ public class UserInput
     public void enterInput(String cmd)
     {
         cmd = cmd.toLowerCase();
-        if("compose".startsWith(cmd))
-        {
             if(commands.containsKey(cmd))
             {
                 commands.get(cmd).run();
@@ -50,7 +48,7 @@ public class UserInput
             {
                 System.out.println("Sorry, Wrong Input command");
             }
-        }
+        
     }
 
 }

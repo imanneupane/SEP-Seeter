@@ -150,7 +150,7 @@ public class Client
     
     private String formatSplash(String user) 
     {
-        return "\n "+ strings.getString("greeting") + user + "!\n"
+        return "\n "+ strings.getString("greeting") + " " + user + "!\n"
             + strings.getString("msg_note")
             + strings.getString("msg_note1");
     }
@@ -164,40 +164,9 @@ public class Client
     private String formatDraftingMenuPrompt(String topic,
       List<String> lines) 
     {
-        return "\n " + strings.getString("msg_draft") + formatDrafting(topic, lines)
+        return "\n " + strings.getString("msg_draft") + CLFormatter.formatDrafting(topic, lines)
             + "\n" + strings.getString("msg_note3")
             + "\n> ";
     }
     
-    static String formatDrafting(String topic, List<String> lines) 
-    {
-        StringBuilder b = new StringBuilder("#");
-        b.append(topic);
-        int i = 1;
-        for (String x : lines) 
-        {
-            b.append("\n");
-            b.append(String.format("%12d", i++));
-            b.append("  ");
-            b.append(x);
-        };
-        return b.toString();
-    }
-
-    static String formatFetched(String topic, List<String> users,
-      List<String> fetched) 
-    {
-        StringBuilder b = new StringBuilder("Fetched: #");
-        b.append(topic);
-        Iterator<String> it = fetched.iterator();
-        for (String user : users) 
-        {
-            b.append("\n");
-            b.append(String.format("%12s", user));
-            b.append("  ");
-            b.append(it.next());
-        };
-        b.append("\n");
-        return b.toString();
-    }
 }

@@ -14,11 +14,23 @@ import sep.seeter.net.message.Message;
 public class CLFormatter 
 {
   static ClientChannel chan;  // Client-side channel for talking to a Seeter server
-
-  public CLFormatter(String host, int port) {
+  //private static final String RESOURCE_PATH = "resources/MessageBundle";
+  //private ResourceBundle strings;
+  
+  public CLFormatter(String host, int port) 
+  {
     this.chan = new ClientChannel(host, port);
   }
-
+  /*
+  public CLFormatter()
+  {
+    this(new Locale("en", "GB"));
+  }
+  public CLFormatter(Locale locale)
+  {
+    strings = ResourceBundle.getBundle(RESOURCE_PATH, locale);
+  }
+  */
   /* Interact with Seeter server */
 
   private void send(Message msg) throws IOException {
@@ -30,25 +42,28 @@ public class CLFormatter
   }
 
   /* Following are the auxiliary methods for formatting the UI text */
+/*
+    public String formatSplash(String user) 
+    {
+        return "\n "+ strings.getString("greeting") + " " + user + "!\n"
+            + strings.getString("msg_note")
+            + strings.getString("msg_note1");
+    }
 
-  static String formatSplash(String user) {
-    return "\nHello " + user + "!\n"
-        + "Note:  Commands can be abbreviated to any prefix, "
-        + "e.g., fe [mytopic].\n";
-  }
+    public String formatMainMenuPrompt() 
+    {
+        return "\n"+ strings.getString("msg_note2")
+            + "\n> ";
+    }
 
-  static String formatMainMenuPrompt() {
-    return "\n[Main] Enter command: fetch [mytopic], compose [mytopic], exit"
-        + "\n> ";
-  }
-
-  static String formatDraftingMenuPrompt(String topic,
-      List<String> lines) {
-    return "\nDrafting: " + formatDrafting(topic, lines)
-        + "\n[Drafting] Enter command: body [mytext], send, exit"
-        + "\n> ";
-  }
-
+    public String formatDraftingMenuPrompt(String topic,
+      List<String> lines) 
+    {
+        return "\n " + strings.getString("msg_draft") + formatDrafting(topic, lines)
+            + "\n" + strings.getString("msg_note3")
+            + "\n> ";
+    }
+*/
   static String formatDrafting(String topic, List<String> lines) {
     StringBuilder b = new StringBuilder("#");
     b.append(topic);
