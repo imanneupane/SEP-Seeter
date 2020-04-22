@@ -52,8 +52,8 @@ public class ClientControl
     
     /**
      * fetch the topic from the server
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @throws IOException throws exception
+     * @throws ClassNotFoundException throws exception
      */
     public void fetchTopic() throws IOException, ClassNotFoundException
     {
@@ -80,7 +80,7 @@ public class ClientControl
      * sends the composed topic draft to the server
      * clears the current draft topic and line
      * 
-     * @throws IOException
+     * @throws IOException throws exception
      */
     public void sendDraft() throws IOException
     {
@@ -104,7 +104,7 @@ public class ClientControl
 
     /**
      * provides command input to the user
-     * @return
+     * @return return command 
      */
     public String passCmd()
     {
@@ -113,7 +113,7 @@ public class ClientControl
 
     /**
      *provides draft topic
-     * @return
+     * @return returns draft topic
      */
     public String getDraftTopic()
     {
@@ -122,7 +122,7 @@ public class ClientControl
 
     /**
      * provides the list inside the draft topic
-     * @return
+     * @return returns list of add seets
      */
     public List getList()
     {

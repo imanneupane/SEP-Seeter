@@ -15,7 +15,7 @@ public class AddSeets implements Command
     
     /**
      *AddSeets constructors initialised with parameter client 
-     * @param client
+     * @param client client called
      */
     public AddSeets(ClientControl client)
     {

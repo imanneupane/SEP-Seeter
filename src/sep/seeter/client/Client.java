@@ -1,10 +1,8 @@
 package sep.seeter.client;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -19,7 +17,7 @@ import sep.seeter.net.message.Bye;
  * working. Try it!
  * <p>
  * The arguments required to run the client correspond to the
- * {@link #set(String, String, int)} method: a user name, and the host name and
+ * {#set(String, String, int)} method: a user name, and the host name and
  * port at which the server as listening.
  * <p>
  * You can compile and run this client using NetBeans (<i>e.g.</i>, Run
@@ -59,7 +57,7 @@ import sep.seeter.net.message.Bye;
  * right click the project in the Projects window and select Generate Javadoc.
  * By default, the output is written to the {@code dist/javadoc} directory.
  *
- * @see CLFormatter
+ * @see CLFormatter 
  */
 public class Client 
 {
@@ -168,8 +166,8 @@ public class Client
     
     /**
      *Main method
-     * @param args
-     * @throws IOException
+     * @param args main arguments user, host, port
+     * @throws IOException throw the input output exception
      */
     public static void main(String[] args) throws IOException
     {

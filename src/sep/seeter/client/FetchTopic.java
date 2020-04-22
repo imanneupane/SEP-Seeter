@@ -18,8 +18,8 @@ public class FetchTopic implements Command
     private final ClientControl client;
 
     /**
-     *
-     * @param client
+     * Constructor requires client
+     * @param client client called
      */
     public FetchTopic(ClientControl client)
     {
