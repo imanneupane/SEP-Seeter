@@ -17,6 +17,10 @@ public class SendSeet implements Command
 {
     private final ClientControl client;
     
+    /**
+     *Constructor requires receiver client 
+     * @param client receiver client called
+     */
     public SendSeet(ClientControl client)
     {
         this.client = client;
@@ -27,7 +31,7 @@ public class SendSeet implements Command
      * Executes sendDraft
      */
     @Override
-    public void run()
+    public void execute()
     {
         try {
             client.sendDraft();

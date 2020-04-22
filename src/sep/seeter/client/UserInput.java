@@ -23,6 +23,10 @@ public class UserInput
      */
     private final HashMap<String, Command> commands;
     
+    /**
+     * Constructors requires receiver class 
+     * @param client class called
+     */
     public UserInput(ClientControl client)
     {
         commands = new HashMap<>();
@@ -35,14 +39,14 @@ public class UserInput
     
     /**
      *Checks if the user input is a command so it runs the command. 
-     * @param cmd
+     * @param cmd get user input 
      */
     public void enterInput(String cmd)
     {
-        cmd = cmd.toLowerCase();
-            if(commands.containsKey(cmd))
+            String command = cmd;
+            if(commands.containsKey(command))
             {
-                commands.get(cmd).run();
+                commands.get(command).execute();
             }
             else
             {

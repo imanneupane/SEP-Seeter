@@ -1,0 +1,83 @@
+[33mcommit 5f3ed22eaca0df3fcbc0ab56871334f9fe3e531c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Tue Apr 21 22:52:49 2020 +0100
+
+    Minor bug fixes
+
+[33mcommit 00d82476f113030ebf5632c56fcdafda35ac05a7[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Tue Apr 21 11:30:27 2020 +0100
+
+    Fixed server bug and Implemented Internationalization(French).
+
+[33mcommit 08b7b402d1b39d4dfb6d2e2d33a421f8c97c30ac[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Tue Apr 21 09:35:57 2020 +0100
+
+    Implemented Internationalization.
+
+[33mcommit 7d25cd21ba29511908e0a6cf8026af91ed885f26[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Tue Apr 21 03:07:40 2020 +0100
+
+    Bug Fixes after following command pattern(Connection Exception).
+
+[33mcommit 7c6e19ed5b6e9e0379a90fea4b9d83b1cbbfe241[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Mon Apr 20 18:04:09 2020 +0100
+
+    Command Pattern completed with working code.
+
+[33mcommit 6dc80551a6af4b6b956d4688acc0b1ca7c67e833[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Sun Apr 19 23:17:26 2020 +0100
+
+    Commmand Pattern practices done.
+
+[33mcommit 408f694ba69ef2ff44df3fc4767085615e171099[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Sun Apr 19 21:42:54 2020 +0100
+
+    step 2 Command pattern in making
+
+[33mcommit 1d35cd0156062da3ce0426359fb2ce58de92a351[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Sun Apr 19 20:48:46 2020 +0100
+
+    Step 1 following the command pattern.
+
+[33mcommit b7cd96c4d4dc1f882a64f964868b3a449d73f10f[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Sat Apr 18 18:36:31 2020 +0100
+
+    Bugs Fixed in Client class.
+
+[33mcommit befc2b59caaf37924cd8ac2067e9961eaabfc712[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Sat Apr 18 18:24:04 2020 +0100
+
+    Bug Fixes in Client class except Exception Handling,
+
+[33mcommit d9c5fc1fbdf0e76390eb742833a0c6e84163396d[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Sat Apr 18 17:54:33 2020 +0100
+
+    Made the loop method cleaner by seperating it into methods(Fixed)
+
+[33mcommit 6348bafab5bd3a4c829ddafbbb1fd4652bff645f[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Fri Apr 17 12:45:29 2020 +0100
+
+    loop method seperated into different methods to make it cohesive.
+
+[33mcommit 2064dbc9a2c1cbaff50486ec084947c7acf63e2b[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Wed Apr 15 17:20:31 2020 +0100
+
+    Initialized the constructor in client class.
+
+[33mcommit 08a9fcebe2705df640a816afade67d36ed15e6e1[m
+Author: Iman Rai Limbu <rai.dilungchha@live.com>
+Date:   Wed Apr 15 17:05:10 2020 +0100
+
+    added files from src.

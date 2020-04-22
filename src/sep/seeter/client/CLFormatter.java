@@ -13,9 +13,18 @@ import sep.seeter.net.message.Message;
  */
 public class CLFormatter 
 {
-  public static ClientChannel chan;  // Client-side channel for talking to a Seeter server
+
+    /**
+     * Initialising class clientchannel
+     */
+    static ClientChannel chan;  // Client-side channel for talking to a Seeter server
   
-  public CLFormatter(String host, int port) 
+    /**
+     *Constructor requires host and port
+     * @param host localhost
+     * @param port port number
+     */
+    public CLFormatter(String host, int port) 
   {
     this.chan = new ClientChannel(host, port);
   }
@@ -44,7 +53,7 @@ public class CLFormatter
     return b.toString();
   }
 
-  public static String formatFetched(String topic, List<String> users,
+    public static String formatFetched(String topic, List<String> users,
       List<String> fetched) {
     StringBuilder b = new StringBuilder("Fetched: #");
     b.append(topic);

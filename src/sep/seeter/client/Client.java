@@ -67,11 +67,18 @@ public class Client
     private static final String RESOURCE_PATH = "resources/MessageBundle";
     private final ResourceBundle strings;
 
-    
+    /**
+     *Constructor initialises locale method 
+     */
     public Client()
     {
         this(new Locale("en", "GB"));
     }
+
+    /**
+     * Constructor require locale 
+     * @param locale object for internationalisation
+     */
     public Client(Locale locale)
     {
         strings = ResourceBundle.getBundle(RESOURCE_PATH, locale);
@@ -84,7 +91,7 @@ public class Client
         {
             throw new IOException(strings.getString("msg_error1"));
         }
-        return input.toLowerCase();
+        return input;
     }
     
     private void userOptions(String user, String host, int port)throws IOException
@@ -106,7 +113,7 @@ public class Client
                 System.out.print(formatDraftingMenuPrompt(client.getDraftTopic(), client.getList()));
             }
             String cmdIn = getInput(reader);
-            client.setCommand(cmdIn);
+            client.setCommand(cmdIn.toLowerCase(Locale.ENGLISH));
             String command = client.passCmd();
             if(command.contentEquals("exit"))break;
             if(command.contentEquals("compose"))
@@ -118,7 +125,24 @@ public class Client
             {
                 state = State.Main;
             }
-            inHandler.enterInput(command);
+            
+            try
+            {
+                inHandler.enterInput(command);
+            }
+            catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e)
+            {
+                if (command.contentEquals("compose"))
+                {
+                    System.out.println(strings.getString("msg_composeError"));
+                    state = State.Main;
+                }
+                else if(command.contentEquals("send"))
+                {
+                    System.out.println(strings.getString("msg_sendError"));
+                    state = State.Draft;
+                }
+            }
         }
         }
         catch (RuntimeException ex) 
@@ -142,6 +166,11 @@ public class Client
     
     }
     
+    /**
+     *Main method
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException
     {
         Client clientRun = new Client();

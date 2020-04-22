@@ -7,14 +7,14 @@ package sep.seeter.client;
 
 /**
  *
- * @author owner
+ * @author il17aag
  */
 public class Compose implements Command
 {
     private final ClientControl client;
     /**
-     * Constructor
-     * @param client which is set to this client
+     * Constructor require receiver client 
+     * @param client class called
      */
     public Compose(ClientControl client)
     {
@@ -26,7 +26,7 @@ public class Compose implements Command
      * Executes composeTopic
      */
     @Override
-    public void run()
+    public void execute()
     {
         client.composeTopic();       
     }

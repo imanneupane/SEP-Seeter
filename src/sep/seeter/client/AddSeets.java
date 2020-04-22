@@ -13,6 +13,10 @@ public class AddSeets implements Command
 {
     private final ClientControl client;
     
+    /**
+     *AddSeets constructors initialised with parameter client 
+     * @param client
+     */
     public AddSeets(ClientControl client)
     {
         this.client = client;
@@ -23,7 +27,7 @@ public class AddSeets implements Command
      * Executes addBody
      */
     @Override
-    public void run()
+    public void execute()
     {
         client.addBody();
     }

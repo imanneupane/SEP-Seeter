@@ -11,6 +11,8 @@ package sep.seeter.client;
  */
 public interface Command 
 {
-    //runs the methods
-    public void run();
+    /**
+     * runs the execute method
+     */
+        public void execute();
 }

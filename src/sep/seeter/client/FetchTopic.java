@@ -10,14 +10,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author owner
+ *This class is the 
+ * @author il17aag
  */
 public class FetchTopic implements Command
 {
     private final ClientControl client;
 
-    
+    /**
+     *
+     * @param client
+     */
     public FetchTopic(ClientControl client)
     {
         this.client = client;
@@ -28,13 +31,11 @@ public class FetchTopic implements Command
      * Executes fetchTopic
      */
     @Override
-    public void run()
+    public void execute()
     {
         try {
             client.fetchTopic();
-        } catch (IOException ex) {
-            Logger.getLogger(FetchTopic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(FetchTopic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

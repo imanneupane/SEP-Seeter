@@ -12,7 +12,16 @@ package sep.seeter.client;
  */
 public enum State 
 {
-    Main("Main State"), Draft("Drafting State");
+
+    /**
+     *Set state to main
+     */
+    Main("Main State"),
+
+    /**Set state to draft
+     *
+     */
+    Draft("Drafting State");
     private String state;
     
     private State(String st)
